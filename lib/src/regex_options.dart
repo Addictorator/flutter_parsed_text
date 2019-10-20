@@ -21,8 +21,5 @@ class RegexOptions {
     this.dotAll = false,
   });
 
-  final bool multiLine;
-  final bool unicode;
-  final bool caseSensitive;
-  final bool dotAll;
+  final bool multiLine, unicode, caseSensitive, dotAll;
 }

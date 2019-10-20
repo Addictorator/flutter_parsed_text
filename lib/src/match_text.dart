@@ -3,10 +3,7 @@ part of flutter_parsed_text;
 /// A MatchText class which provides a structure for [ParsedText] to handle
 /// Pattern matching and also to provide custom [Function] and custom [TextStyle].
 class MatchText {
-
-  /// If no [type] property is explicitly defined then this propery must be
-  /// non null takes a [regex] string
-  String pattern;
+  @required String pattern;
 
   /// Takes a custom style of [TextStyle] for the matched text widget
   TextStyle style;
