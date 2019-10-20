@@ -78,7 +78,39 @@ class ParsedText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> splits = text.split(" ");
+
+    // Seperate each word and create a new Array
+    String newString = text;
+
+    // Parse the whole text and adds "%%%%" before and after the
+    // each matched text this will be used to split the text affectively
+    parse.forEach((e) {
+      if (e.type == ParsedType.EMAIL) {
+        RegExp regExp = RegExp(emailPattern, multiLine: true);
+        newString = newString.splitMapJoin(regExp,
+            onMatch: (m) => "%%%%${m.group(0)}%%%%", onNonMatch: (m) => "$m");
+      } else if (e.type == ParsedType.PHONE) {
+        RegExp regExp = RegExp(phonePattern);
+        newString = newString.splitMapJoin(regExp,
+            onMatch: (m) => "%%%%${m.group(0)}%%%%", onNonMatch: (m) => "$m");
+      } else if (e.type == ParsedType.URL) {
+        RegExp regExp = RegExp(urlPattern);
+        newString = newString.splitMapJoin(regExp,
+            onMatch: (m) => "%%%%${m.group(0)}%%%%", onNonMatch: (m) => "$m");
+      } else if (e.type == ParsedType.CUSTOM) {
+        RegExp regExp = RegExp(e.pattern,
+            multiLine: e.regexOptions.multiLine,
+            caseSensitive: e.regexOptions.caseSensitive,
+            unicode: e.regexOptions.unicode,
+            dotAll: e.regexOptions.dotAll);
+        newString = newString.splitMapJoin(regExp,
+            onMatch: (m) => "%%%%${m.group(0)}%%%%", onNonMatch: (m) => "$m");
+      }
+    });
+
+    // splits the modified text at "%%%%"
+
+    List<String> splits = newString.split("%%%%");
 
     // Map over the splits array to get a new Array with its elements as Widgets
     // checks if each word matches either a predefined type of custom defined patterns
