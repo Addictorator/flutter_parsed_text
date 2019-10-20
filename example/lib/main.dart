@@ -44,12 +44,8 @@ class _MainAppState extends State<MainApp> {
                       fontSize: 24,
                     ),
                     renderText: ({String str, String pattern}) {
-                      Map<String, String> map = Map<String, String>();
-                      RegExp customRegExp = RegExp(pattern);
-                      Match match = customRegExp.firstMatch(str);
-                      map['display'] = match.group(1);
-                      map['value'] = match.group(2);
-                      return map;
+                      Match match = RegExp(pattern).firstMatch(str);
+                      return {'display' : match.group(1), 'value' : match.group(2)};
                     },
                     onTap: (url) {
                       showDialog(

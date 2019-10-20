@@ -81,6 +81,7 @@ class ParsedText extends StatelessWidget {
           dotAll: e.regexOptions.dotAll);
       newString = newString.splitMapJoin(regExp,
           onMatch: (m) => "%%%%${m.group(0)}%%%%", onNonMatch: (m) => "$m");
+      print(newString);
     });
 
     // splits the modified text at "%%%%"
