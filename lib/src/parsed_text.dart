@@ -64,7 +64,7 @@ class ParsedText extends StatelessWidget {
   ParsedText({
     Key key,
     @required this.text,
-    this.parse = const <MatchText>[],
+    this.parse,
     this.style,
     this.alignment = TextAlign.start,
     this.textDirection,
@@ -78,24 +78,18 @@ class ParsedText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     // Seperate each word and create a new Array
     String newString = text;
 
     // Parse the whole text and adds "%%%%" before and after the
     // each matched text this will be used to split the text affectively
     parse.forEach((e) {
-      RegExp regExp = RegExp(e.pattern,
-          multiLine: e.regexOptions.multiLine,
-          caseSensitive: e.regexOptions.caseSensitive,
-          unicode: e.regexOptions.unicode,
-          dotAll: e.regexOptions.dotAll);
+      RegExp regExp = RegExp(e.pattern);
       newString = newString.splitMapJoin(regExp,
           onMatch: (m) => "%%%%${m.group(0)}%%%%", onNonMatch: (m) => "$m");
     });
 
     // splits the modified text at "%%%%"
-
     List<String> splits = newString.split("%%%%");
 
     // Map over the splits array to get a new Array with its elements as Widgets
@@ -109,12 +103,8 @@ class ParsedText extends StatelessWidget {
       );
 
       // loop over to find patterns
-      parse.forEach((e) {
-        RegExp customRegExp = RegExp(e.pattern,
-            multiLine: e.regexOptions.multiLine,
-            caseSensitive: e.regexOptions.caseSensitive,
-            unicode: e.regexOptions.unicode,
-            dotAll: e.regexOptions.dotAll);
+      for (final e in parse) {
+        RegExp customRegExp = RegExp(e.pattern);
 
         bool matched = customRegExp.hasMatch(element);
 
@@ -125,20 +115,21 @@ class ParsedText extends StatelessWidget {
 
             widget = TextSpan(
               style: e.style != null ? e.style : style,
-              text: "${result['display']}",
+              text: "${result['display']} ",
               recognizer: TapGestureRecognizer()
                 ..onTap = () => e.onTap(result['value']),
             );
           } else {
             widget = TextSpan(
               style: e.style != null ? e.style : style,
-              text: "$element",
+              text: "$element ",
               recognizer: TapGestureRecognizer()
                 ..onTap = () => e.onTap(element),
             );
           }
+          break;
         }
-      });
+      }
 
       return widget;
     }).toList();
