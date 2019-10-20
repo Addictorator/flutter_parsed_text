@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_parsed_text/flutter_parsed_text.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 main() {
   runApp(MyApp());
@@ -38,37 +37,6 @@ class _MainAppState extends State<MainApp> {
               text:
                   "[@michael:51515151] Hello london this is an example of the ParsedText, links like http://www.google.com or http://www.facebook.com are clickable and phone number 444-555-6666 can call too. But you can also do more with this package, for example Bob will change style and David too.\nAlso a US number example +1-(800)-831-1117. foo@gmail.com And the magic number is 42! #flutter #flutterdev",
               parse: <MatchText>[
-                MatchText(
-                    type: ParsedType.EMAIL,
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 24,
-                    ),
-                    onTap: (url) {
-                      launch("mailto:" + url);
-                    }),
-                MatchText(
-                    type: ParsedType.URL,
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 24,
-                    ),
-                    onTap: (url) async {
-                      var a = await canLaunch(url);
-
-                      if (a) {
-                        launch(url);
-                      }
-                    }),
-                MatchText(
-                    type: ParsedType.PHONE,
-                    style: TextStyle(
-                      color: Colors.purple,
-                      fontSize: 24,
-                    ),
-                    onTap: (url) {
-                      launch("tel:" + url);
-                    }),
                 MatchText(
                     pattern: r"\[(@[^:]+):([^\]]+)\]",
                     style: TextStyle(
